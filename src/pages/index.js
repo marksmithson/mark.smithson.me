@@ -26,14 +26,8 @@ const Hero = styled.div`
   color: ${props => props.theme.colors.grey.dark};
 
   p {
-    font-size: 1.68rem;
+    font-size: 1.1rem;
     margin-top: -1rem;
-    @media ${media.phone} {
-      font-size: 1.25rem;
-    }
-    @media ${media.tablet} {
-      font-size: 1.45rem;
-    }
   }
 `;
 
@@ -45,10 +39,17 @@ const IndexPage = ({
   <Layout>
     <Wrapper>
       <Hero>
-        <h1>Hi.</h1>
+        <h1>Welcome.</h1>
         <p>
-          I&apos;m John Doe, a Senior UX Developer with five years of industry experience, specializing in developing
-          React apps with the best UX users can get.
+          My name is Mark Smithson and this site is a collection of my thoughts on various topics.
+        </p>
+        <p>
+          I am a software developer with an interest in product development and have started and run a number of
+          companies. Other interests include classic cars, motor racing, skiing and cycling
+        </p>
+        <p>
+          I hope you find the content on this site interesting and would love to hear from you if you have any comments
+          or thoughts.
         </p>
         <Link to="/contact">
           <Button big>
