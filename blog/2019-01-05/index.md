@@ -5,7 +5,7 @@ category: "Books"
 ---
 [![Book Cover - High Output Management by Andy Grove](/images/high-output-management.jpg)](https://www.amazon.co.uk/High-Output-Management-Andrew-Grove/dp/0679762884)
 
-This book was first published in 1983 and revised in 1995 who was the Chairman and CEO of Intel.
+This book was first published in 1983 and revised in 1995 by Andrew Grove who was the Chairman and CEO of Intel.
 
 Some of the examples in the book show it's age. For example the impact of the introduction of email on mailroom managers is covered.  Plans involved, installing printers in the mail rooms of different locations so that the messages could then be distributed to staff at those locations.
 
