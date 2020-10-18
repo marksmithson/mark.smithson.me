@@ -5,7 +5,7 @@
   "author": "Mark Smithson <mark@smithson.me>",
   "dependencies": {
     "babel-plugin-styled-components": "^1.11.1",
-    "gatsby": "^2.24.67",
+    "gatsby": "^2.24.80",
     "gatsby-plugin-catch-links": "^2.3.14",
     "gatsby-plugin-lodash": "^3.3.12",
     "gatsby-plugin-manifest": "^2.4.33",
