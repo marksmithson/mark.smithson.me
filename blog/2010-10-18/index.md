@@ -1,5 +1,5 @@
 ---
-date: "2020-10-04"
+date: "2020-10-18"
 title: "Walking Skeleton"
 category: "Development"
 ---
