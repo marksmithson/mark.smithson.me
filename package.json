@@ -1,12 +1,13 @@
 {
   "name": "mark-smithson-me-blog",
   "description": "mark.smithson.me site",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": "Mark Smithson <mark@smithson.me>",
+  "license": "UNLICENSED",
   "dependencies": {
     "babel-plugin-styled-components": "^1.12.0",
-    "gatsby": "3.5",
-    "gatsby-plugin-catch-links": "3.5",
+    "gatsby": "^3.5.0",
+    "gatsby-plugin-catch-links": "^3.5.0",
     "gatsby-plugin-lodash": "^4.5.0",
     "gatsby-plugin-manifest": "^3.5.0",
     "gatsby-plugin-netlify": "^3.5.0",
@@ -33,12 +34,8 @@
     "typography": "^0.16.21"
   },
   "keywords": [
-    "gatsby",
-    "gatsby-starter",
-    "lekoarts"
+    "gatsby"
   ],
-  "license": "MIT",
-  "main": "n/a",
   "scripts": {
     "build": "gatsby build",
     "dev": "gatsby develop -o",
