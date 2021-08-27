@@ -286,7 +286,7 @@ Jest's `mockRejectedValue` makes it easy to test failure cases:
 
  The approach I take is to call the external services through [Gateways](https://martinfowler.com/articles/gateway-pattern.html). Integration tests of the Gateway would verify that the service behaves as I expect for my use cases. I then mock the Gateway when testing the rest of the system. 
 
-
+Source code for the post can be found here https://github.com/marksmithson/jest-mocking-patterns
 
 
 
