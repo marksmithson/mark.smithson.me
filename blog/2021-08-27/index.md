@@ -282,7 +282,7 @@ Jest's `mockRejectedValue` makes it easy to test failure cases:
 
  Jest mocks can be incredibly useful when testing, however it is possible to overuse them. If your mocking is getting very complex, it may suggest that your design needs attention, or that you would benefit from creating your own mocks or test objects to use when testing.
 
- I have used examples of mocking external APIs or services, however this is something I try and avoid doing. It can be challenging to capture the behaviour of these in mocks, and if the behavious you have mocked is subletly different from how the service behaves your tests will deceive you.
+ I have used examples of mocking external APIs or services, however this is something I try and avoid doing. It can be challenging to capture the behaviour of these in mocks, and if the behaviour you have mocked is subtlety different from how the service behaves your tests will deceive you.
 
  The approach I take is to call the external services through [Gateways](https://martinfowler.com/articles/gateway-pattern.html). Integration tests of the Gateway would verify that the service behaves as I expect for my use cases. I then mock the Gateway when testing the rest of the system. 
 
