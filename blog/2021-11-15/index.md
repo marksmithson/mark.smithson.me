@@ -4,9 +4,9 @@ title: "Pulumi Function Serialisation by Example"
 category: "Development"
 ---
 
-[Pulumi](https://www.pulumi.com) is an Infrastructure as Code tool, similar Terraform, except that instead of using a specialised language like hcl or yaml, you can use general purpose programming languages including Javascript, Typescript, Python and C#.
+[Pulumi](https://www.pulumi.com) is an Infrastructure as Code tool, similar Terraform, except that instead of using a specialised language like hcl or yaml, you use general purpose programming languages including Javascript, Typescript, Python and C#.
 
-When deploying a lambda function you would typically build you function code, package it into a zip file, and reference that when creating the Lambda function. This is possible using pulumi as shown below:
+When deploying a lambda function you would typically build your function code, package it into a zip file, and reference that when creating the function. This is demonstrated using Pulumi as shown below:
 
 ```ts
 export = async () => {
@@ -23,7 +23,7 @@ export = async () => {
 };
 ```
 
-If you are using Javascript/Typescript, Pulumi has a great feature where you can define Lambda functions as inline code. This avoids the need to manage your lambda function separately and is incredibly valuable when attaching lambda functions to events, such as `onObject` events for S3 Buckets.
+If you are using Javascript or Typescript, Pulumi has a great feature where you can define Lambda functions as inline code. This avoids the need to manage your lambda function separately and is incredibly valuable when attaching lambda functions to events, such as `onObject` events for S3 buckets.
 
 ```ts
 export = async {
@@ -53,7 +53,7 @@ export = async {
 }
 ```
 
-When this is executed by Pulumi, using `pulumi up`, the handler function is serialised and a lambda function created which will execute the handler when called.
+When this is executed by Pulumi, using `pulumi up`, the handler function is serialised and a lambda function created which will execute the handler when invoked.
 
 This is the code Pulumi generates amd deploys for the function:
 
@@ -112,9 +112,9 @@ function __f0(__0) {
 
 Pulumi has captured the value of this variable and included it in the `with` statement of the wrapper function, making it available to our callback function.
 
-> Pulumi uses the node v8 library to obtain the value of this variable when the pulumi program is run. (using `lookupCapturedVariableValueAsync`)
+> Pulumi uses the node v8 library to obtain the value of this variable when the Pulumi program is run. (using `lookupCapturedVariableValueAsync`)
 
-> [`with`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with) is not commonly used, it adds the expression to the scope chain. In this case it allows pulumi to use the names in the original code whilst ensuring that generated variable names can be unique.
+> [`with`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with) is not commonly used, it adds the expression to the scope chain. In this case it allows Pulumi to use the names in the original code whilst ensuring that generated variable names can be unique.
 
 ## Calling other functions
 
@@ -208,7 +208,7 @@ function __f0(__0) {
 
 ## Changing captured values
 
-So far we have been capturing the value of `const` variables which cannot change. What happens if are capturing a variable which may change in the Pulumi program?
+So far we have been capturing the value of `const` variables which cannot change. What happens if we are capturing a variable which may change in the Pulumi program? Lets try it:
 
 ```ts
 let secondMessage = "Hello from Pulumi before the callback";
@@ -223,7 +223,7 @@ const mutatedLambda = new aws.lambda.CallbackFunction("mutatedVariableLambda", {
 secondMessage = "Hello from Pulumi after the callback";
 ```
 
-And the generated code is:
+The generated code is:
 
 ```js
 exports.handler = __f0;
@@ -255,11 +255,11 @@ await new Promise(resolve => {
 ```
 When we do this, the captured value is the original `"Hello from Pulumi before the callback"`.
 
-It can be difficult to determine what value will be captured when the state of the captured variable may change. Making sure that any state outside of the function scope is not mutated (using `const`) is therefore a great way to make your code more robust.
+It can be difficult to determine what value will be captured when the state of the captured variable may change. Making sure that any state outside of the function scope is not mutated (using `const`) is a great way to make your code more robust.
 
 ## Capturing Large Objects
 
-Pulumi performs some optimisations of captured object values. Pulumi only serialises the properties which are actually used.
+Pulumi performs optimisation of captured object values, it only serialises the properties which are actually used.
 
 ```ts
 const data = { first: "value", second: "value", nested: { third: "value", fourth: "value" } };
@@ -301,7 +301,7 @@ Note that this does not happen if you are accessing an object in an array. All o
 
 ### Promises
 
-If the variable to be captured is a promise, Pulumi awaits the promise and captures the result:
+If the variable to be captured is a promise, Pulumi awaits the promise and captures the result as we can see below:
 
 ```ts
 const promise = new Promise((resolve) => {
@@ -315,7 +315,7 @@ const promiseLambda = new aws.lambda.CallbackFunction("promiseLambda", {
 });
 ```
 
-results in:
+With the generated code:
 
 ```js
 exports.handler = __f0;
@@ -337,7 +337,7 @@ This means that you do not need to await the variable from within the callback.
 
 ## Capturing Class Objects
 
-If reference a class variable, the class is captured and serialised.
+If reference a class variable, the class is captured and serialised. Using this example:
 
 ```ts
 class Obj {
@@ -355,7 +355,7 @@ const lambdaWithObj = new aws.lambda.CallbackFunction("lambdaWithObj", {
 });
 ```
 
-Generates this code:
+The generated code is:
 
 ```js
 exports.handler = __f0;
@@ -402,11 +402,11 @@ return () => { obj.callback(); };
 }
 ```
 
-A prototype has been created with the class functions and an object created from that class.
+A prototype has been created with the class functions and an object created from the class.
 
 Note that if we set the callback function to a class method, only the method is serialised and not the class itself. This means that if the function refers to state of the object, this will not be available. Modifying the example above:
 
-```ts
+```ts 
 class Obj {
   message: string = "hello from class";
   public callback () {
@@ -447,7 +447,7 @@ We should therefore avoid referencing functions within objects directly, rather 
 
 ## Referencing Pulumi Outputs
 
-It is possible to reference the outputs of other pulumi components within the function. This can be useful to embed configuration within the code. 
+We can reference the outputs of other Pulumi components within the function. This can be useful to embed configuration within the code. 
 
 ```ts
 const output = pulumi.output("an output value");
@@ -521,13 +521,13 @@ return (event) => {
 }
 ```
 
-The output object is captured and can get accessed using `get()`. If you try and use `apply` on the output within the lambda code, an error will be thrown.
+The output object is captured and can get accessed using `get()`. If you try and use `apply()` on the output within the lambda code, an error will be thrown.
 
-> In most cases, I would provide this configuration as environment variables as this make these dependencies of the function more explicit. This approach may be useful for simple event handlers.
+> This approach may be useful for simple event handlers. In most cases, I would provide this configuration as environment variables as this make these dependencies of the function more explicit. 
 
 ## Using Pulumi Secrets
 
-If the code references a pulumi secret, the code produced is the same as for a pulumi output. However the state file created by pulumi encrypts the function contents, rather than storing it as plain text.
+If the code references a Pulumi secret, the code produced is the same as for a Pulumi output. However the state file created by Pulumi encrypts the function contents, rather than storing it as plain text.
 
 ## Using Modules
 If we have a module defined in the local project, for example in `module.ts`
@@ -546,6 +546,7 @@ We can import that module and use it's exports in the lambda:
 
 ```ts
 import { moduleFunction } from "./module";
+
 const moduleFunctionLambda = new aws.lambda.CallbackFunction("moduleFunctionLambda", {
   callback: moduleFunction,
   runtime: Runtime.NodeJS14dX
@@ -576,6 +577,7 @@ The situation is different if we install a package and reference that. Lets use 
 
 ```ts
 import * as _ from "lodash";
+
 const externalModuleFunctionLambda = new aws.lambda.CallbackFunction("externalModuleFunctionLambda", {
   callback: ()=>{
     console.log(_.camelCase("Hello from external module function"));
@@ -603,33 +605,33 @@ function __f0() {
 }
 ```
 
-We can see that the lodash module is included with a `require`. The lodash package is included in the lambda function in a `node_modules` folder. The complete lodash package is included in the lambda function, not just the `camelCase` function.
+We can see that the lodash module is included with a `require`. The lodash package is packaged in the lambda function in a `node_modules` folder. The complete lodash package is included, not just the `camelCase` function.
 
-In fact the package will be included even if your function does not reference a function in the package. Pulumi will include all runtime packages, irrespective of whether they are used in the function or not. The exceptions are nodejs built in modules, pulumi modules, modules that have `pulumi.runtimeDependencies` section in their `package.json`, or the `aws-sdk` (as this is always present in nodejs lambda functions).
+In fact the package will be included even if your function does not reference a function in the package. Pulumi will include all runtime packages, irrespective of whether they are used in the function or not. The exceptions are Node built in modules, Pulumi modules, modules that have `pulumi.runtimeDependencies` section in their `package.json`, or the `aws-sdk` (as this is always present in Nodejs lambda functions).
 
 > Note that the built in node modules are based on node 6. If you use more recent modules, you may experience issues. (such as `http2`). This list of recognised built in modules is here: https://github.com/pulumi/pulumi/blob/master/sdk/nodejs/runtime/closure/createClosure.ts#L1324
 
-This is not ideal from the point of view of the code size for the lambda function. This can have an effect on deployment time (as more code needs to be updated) and the initial load time.
+This is not ideal from the point of view of the code size for the lambda function. Increased code size can increase deployment time (as more code needs to be updated) and the initial load time.
 
 Pulumi provides a way to exclude external modules when declaring a lambda function via the `codePathOptions` argument.
 
 ```ts
-codePathOptions:{
+codePathOptions: {
   extraExcludePackages: ["lodash"]
 },
 ```
 
-This will prevent the listed packages being included in the lambda function if we don't need it. Don't put packages you do need here, or they won't be included!
+This will prevent the listed packages being packaged in the lambda function. Don't put packages you do need here, or they won't be available at runtime!
 
-Pulumi does not perform tree shaking which has the potential to automatically exclude code which is not used. It is understandable that this approach was taken - it is a pragmatic decision to be able to deliver this functionality in a reasonable timescale. It can be beneficial to use smaller modules that only contain the functionality you require. In our example we could have used the `lodash.camelcase` package.
+Pulumi does not perform tree shaking which has the potential to automatically exclude code which is not used. It is therefore beneficial to use smaller modules that only contain the functionality you require, in our example we could have used the `lodash.camelcase` package.
 
 ### ES6 Modules
 
-Pulumi requires that packages we use are compatible with `commonjs`. This means we are not able to use packages which have been built as ES6 modules. If you try and do this you will get the error:
+Pulumi requires that packages we use are compatible with `commonjs`, so we are not able to use packages which have been built as ES6 modules. If you try and do this you will get the error:
 
 `Error [ERR_REQUIRE_ESM]: Must use import to load ES Module:`
 
-When running the Pulumi program, the Javascript language host uses a `require` to load the program https://github.com/pulumi/pulumi/blob/master/sdk/nodejs/cmd/run/run.ts#L247. This means that the cjs loader is used which will not allow import statements in the code resulting in the error `SyntaxError: Cannot use import statement outside a module`. As we are not allowed to `require` an ES module, there is no way around this without changes to the Pulumi source code.
+When running the Pulumi program, the Javascript language host uses a `require` to load the program https://github.com/pulumi/pulumi/blob/master/sdk/nodejs/cmd/run/run.ts#L247. This means that the cjs loader is used which will not allow import statements in the code resulting in the error `SyntaxError: Cannot use import statement outside a module`. As we are not allowed to `require` an ES module, there is no way around this without changes to Pulumi.
 
 ## Using a Callback Factory
 
@@ -649,7 +651,7 @@ const callBackFactory = new aws.lambda.CallbackFunction("callbackFactory", {
 });
 ```
 
-results in:
+This results in:
 
 ```js
 function __f0() {
@@ -673,7 +675,6 @@ exports.handler = __f0();
 Here we can see that `exports.handler` is set the result of the factory function.
 
 As an example, this can be useful to initialise aws sdk clients.
-
 ## Recap
 
 Pulumi function serialisation can be used to make Pulumi IaC programs easier to understand. I have found a few techniques help keep things working as you expect them to:
@@ -686,6 +687,7 @@ Pulumi function serialisation can be used to make Pulumi IaC programs easier to 
 - make use of `callbackFactory` to initialise clients or other expensive state
 - remember to use `get()` when referencing pulumi outputs from within a callback
 - don't use class functions as callbacks
+- prefer referencing individual object directly rather than from lists or arrays
 
 ## References
 
