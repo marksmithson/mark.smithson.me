@@ -4,6 +4,7 @@ import { Link, graphql } from 'gatsby';
 import styled from 'styled-components';
 import { Layout, Article, Wrapper, Button, SectionTitle } from 'components';
 import { media } from '../utils/media';
+import Helmet from 'react-helmet';
 
 const Content = styled.div`
   grid-column: 2;
@@ -38,6 +39,11 @@ const IndexPage = ({
 }) => (
   <Layout>
     <Wrapper>
+      <Helmet>
+        <link rel="alternate" type="application/atom+xml" 
+          title="RSS Feed for mark.smithson.me" 
+          href="/rss.xml" />
+      </Helmet>
       <Hero>
         <h1>Welcome.</h1>
         <p>

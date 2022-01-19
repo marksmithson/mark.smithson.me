@@ -30,7 +30,11 @@ const Category = ({ pageContext: { category }, data: { allMarkdownRemark } }) =>
   return (
     <Layout>
       <Wrapper>
-        <Helmet title={`${category} | ${config.siteTitle}`} />
+        <Helmet title={`${category} | ${config.siteTitle}`} >
+          <link rel="alternate" type="application/atom+xml" 
+            title="RSS Feed for mark.smithson.me" 
+            href="/rss.xml" />
+        </Helmet>
         <Header>
           <Link to="/">{config.siteTitle}</Link>
         </Header>

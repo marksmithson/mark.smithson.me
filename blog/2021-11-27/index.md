@@ -91,7 +91,7 @@ if (packages.length > 0) {
 ```
 
 We can run this with a command like:
-```sh
+```bash
 multi-gitter run "node ${PWD}/add-dependabot.js" -O marksmithson-test-org -m "Add Dependabot" -B add-dependabot
 ```
 
@@ -105,7 +105,7 @@ We can see that these pull requests add the `dependabot.yml` file.
 
 We could merge these Pull Requests manually, however multi-gitter can also handle this for us using this command:
 
-```
+```bash
 multi-gitter merge -O marksmithson-test-org -B add-dependabot
 ```
 
