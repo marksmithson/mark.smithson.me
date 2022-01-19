@@ -41,7 +41,11 @@ const Post = ({ pageContext: { slug, prev, next }, data: { markdownRemark: postN
     <Layout>
       <Wrapper>
         <SEO postPath={slug} postNode={postNode} postSEO />
-        <Helmet title={`${post.title} | ${config.siteTitle}`} />
+        <Helmet title={`${post.title} | ${config.siteTitle}`} >
+          <link rel="alternate" type="application/atom+xml" 
+            title="RSS Feed for mark.smithson.me" 
+            href="/rss.xml" />
+        </Helmet>
         <Header>
           <Link to="/">{config.siteTitle}</Link>
         </Header>
