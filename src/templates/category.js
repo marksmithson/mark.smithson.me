@@ -77,7 +77,7 @@ Category.propTypes = {
 export const postQuery = graphql`
   query CategoryPage($category: String!) {
     allMarkdownRemark(
-      sort: { fields: [frontmatter___date], order: DESC }
+      sort: {frontmatter: {date: DESC}}
       filter: { frontmatter: { category: { eq: $category } } }
     ) {
       totalCount
