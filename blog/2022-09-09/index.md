@@ -14,7 +14,7 @@ The following SQL query calculates the occupancy for flights (see https://postgr
 
 ```sql
 SELECT
-    f.flight_id, ROUND(CAST(o.passengers AS decimal)/c.capacity, 2) AS occupancy
+    f.flight_id, ROUND(CAST(f.passengers AS decimal)/c.capacity, 2) AS occupancy
 FROM
     (
       /* number of passengers on flights */
