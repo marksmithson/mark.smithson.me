@@ -68,7 +68,7 @@ Category.propTypes = {
 export const postQuery = graphql`
   query CategoriesPage {
     allMarkdownRemark {
-      group(field: frontmatter___category) {
+      group(field: {frontmatter: {category: SELECT}}) {
         fieldValue
         totalCount
       }
