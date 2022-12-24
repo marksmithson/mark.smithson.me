@@ -6,9 +6,9 @@ category: "Development"
 
 ### Window Functions Part 2
 
-One of the most common uses for window functions is to return the first row for a partition. To demonstrate this we will find the first flight for each flight.
+One of the most common uses for window functions is to return the first row for ina group or partition. To demonstrate this we will find the first flight for each flight number.
 
-The `row_number` function returns the position of the row within a partition. This means we want to specify an ordering within the partition as below:
+We will make use of the `row_number` function which returns the position of the row within a partition. We need to specify an ordering within the partition so we get the first flight.
 
 ```sql
 SELECT
@@ -35,7 +35,7 @@ This returns the following:
 | 32037 | PG0002 | 2017-07-16 07:10:00.000000 +00:00 | 1 |
 | 32035 | PG0002 | 2017-07-23 07:10:00.000000 +00:00 | 2 |
 
-The flights are returned for each `flight_no` partition with the expected `row_number`. Window functions can not be used in the `WHERE` clause so we have a to use a subquery to select the first row.
+The flights are returned for each `flight_no` partition with the expected `row_number`. As window functions can't be used in the `WHERE` clause so we will use a subquery to select the first row.
 
 ```sql
 SELECT
@@ -74,7 +74,7 @@ This technique can be used to select any subset of rows within a partition, such
 
 ## Ranks
 
-`row_number` returns the returned position of the row within the partition and does not take account of rows with the same sort position. `rank` and `dense_rank` give rows with the same sort position the same rank as demonstrated with this query;
+`row_number` returns the position of the row within a partition. If 2 rows have the same sort position they get sequential numbers based on the position in the results. The `rank` and `dense_rank` functions give rows with the same sort position the same rank as demonstrated with this query;
 
 ```sql
 SELECT
@@ -90,7 +90,7 @@ WINDOW
     code_by_no AS (PARTITION BY aircraft_code ORDER BY flight_no)
 ```
 
-(see the previous article for a description of the `WINDOW` clause)
+(see the [previous article](/sql-refresh-window-functions-part-1/) for a description of the `WINDOW` clause)
 
 Which returns (some rows skipped)
 
@@ -111,10 +111,21 @@ Which returns (some rows skipped)
 | 19944 | 319 | PG0710 | 1239 | 1231 | 46 |
 | 9306 | 321 | PG0198 | 1 | 1 | 1 |
 
-Rows with the same sort order are referred to as peers.
+We call rows with the same sort position peer rows.
 
-`rank()` assigns peer rows the same rank and skips ranks so that rows in the next peer group have a rank representing the overall position within the partition. 
+`rank()` assigns peer rows the same rank. The next row with a different sort position is assigned a rank based on it's position in the partition. 
 
 This can be seen where the 26 rows in the first peer group (`flight_no` PG0064) have `rank` 1. Rows in the next peer group (`flight_no` PG0065) have `rank` 27.
 
-`dense_rank()` does not skip ranks, resulting in the `dense_rank` being assigned to rows being consecutive. So the second peer group (`flight_no` PG0065) have a `dense_rank` of 2, and the third peer group has a `dense_rank` of 3.
+`dense_rank()` assigned the next consecutive rank to the next row with a different sort position. We can see that the second peer group (`flight_no` PG0065) have a `dense_rank` of 2, and the third peer group has a `dense_rank` of 3.
+
+## Demo Database
+For the examples I have used of the demo database available from: https://postgrespro.com/education/demodb
+
+I used docker to run a postgresql server (14.5). My script to startup and load the database is:
+```
+curl https://edu.postgrespro.com/demo-small-en.zip
+docker run -e POSTGRES_PASSWORD=password -p 5432:5432 -d postgres
+unzip demo-small-en.zip
+psql -h localhost -f demo-small-en-20170815.sql -U postgres
+```

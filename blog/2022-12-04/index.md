@@ -94,7 +94,7 @@ FROM
 This returns the average of all flights in `avg_flight_time` which is the same for all rows
 
 ```txt
-| flight_id  | flight_no  | flight_time               | sum_flight_time                |
+| flight_id  | flight_no  | flight_time               | avg_flight_time                |
 ------------------------------------------------------------------------------------
 | 1         | PG0405    | 0 hours 55 mins 0.0 secs | 2 hours 8 mins 19.454121 secs |
 | 2         | PG0404    | 0 hours 55 mins 0.0 secs | 2 hours 8 mins 19.454121 secs |
