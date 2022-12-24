@@ -84,7 +84,7 @@ const Layout = ({ children }) => (
           <GlobalStyle />
           {children}
           <Footer>
-            &copy; 2019-2021 by Mark Smithson. All rights reserved. <br />
+            &copy; 2019-2022 by Mark Smithson. All rights reserved. <br />
             <span>Last build: {data.site.buildTime}</span>
           </Footer>
         </React.Fragment>
